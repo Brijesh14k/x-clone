@@ -1,14 +1,19 @@
+import { useCurrentUser } from "@/hooks/useCurrentUser"
 import { useLoginModal } from "@/hooks/useLoginModel"
 import { useRouter } from "next/router"
 import { useCallback } from "react"
 import { FaFeather } from "react-icons/fa"
 export  const SideBarTweetButton = ()=>{
     const router = useRouter()
+    const {data:currentUser} = useCurrentUser()
     const LoginModal = useLoginModal();
+    const doNothing = ()=>{
+        return;
+    }
     const onclick = useCallback(()=>{
         LoginModal.onOpen()
     },[LoginModal])
-return <div onClick={ onclick}>
+return <div onClick={ !currentUser ? onclick : doNothing}>
     <div className="
     mt-6
     lg:hidden

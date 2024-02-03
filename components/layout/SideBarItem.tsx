@@ -1,18 +1,43 @@
+import { useCurrentUser } from "@/hooks/useCurrentUser"
+import { useLoginModal } from "@/hooks/useLoginModel"
+import { useRouter } from "next/navigation"
+import { useCallback } from "react"
 import { IconType } from "react-icons"
+
 
 interface SideBarItemProps {
     label: string
     href: string
     icon: IconType
     onclick?: () => void
+    auth?:boolean
 }
 export const SideBarItem = ({
     href,
     label,
     icon: Icon,
-    onclick
+    onclick,
+    auth
 }: SideBarItemProps) => {
-    return <div className="flex flex-row item-center">
+    const loginModal = useLoginModal()
+    const {data:currentUser} = useCurrentUser()
+    const router = useRouter()
+    const handelClick  = useCallback(()=>{
+        if(onclick)
+        {
+            return onclick();
+        }
+        if(auth && !currentUser)
+        {
+            loginModal.onOpen()
+        }
+        else
+        {
+            router.push(href)
+        }
+    },[router,onclick,href,currentUser,auth,loginModal])
+    return <div onClick={handelClick} 
+    className="flex flex-row item-center">
         <div className="relative rounded-full h-14 w-14 flex items-center justify-center p-4 hover:bg-slate-300 hover:bg-opacity-10  cursor-pointer lg:hidden ">
             <Icon size={28} color="white" />
         </div>

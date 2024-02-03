@@ -5,12 +5,16 @@ import { SideBarLogo } from './SideBarLogo'
 import { IconType } from "react-icons"
 import {BiLogOut} from 'react-icons/bi'
 import { SideBarTweetButton } from './SideBarTweet'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { signOut } from 'next-auth/react'
 interface ItemProps{
     label:string
     href:string
-    icon:IconType
+    icon:IconType,
+    auth?:boolean
 }
 export const SideBar = ()=>{
+    const {data:currentUser} = useCurrentUser()
     const items:ItemProps[] =[
         {
             label:'Home',
@@ -19,12 +23,14 @@ export const SideBar = ()=>{
         },{
             label:'Notifications',
             href:'/notifications',
-            icon:BsBellFill
+            icon:BsBellFill,
+            auth:true
         },
         {
             label:"Profile",
             href:'/users/123',
-            icon:FaUser
+            icon:FaUser,
+            auth:true
         }
     ]
     return <div className='col-span1 h-full pr-4 md:pr-6'>
@@ -32,11 +38,13 @@ export const SideBar = ()=>{
             <div className='space-y-2 lg:w-[230px]'>
                 <SideBarLogo/>
                 {
-                    items.map(item => <SideBarItem key={item.href} href={item.href} label={item.label} icon={item.icon}/>)
+                    items.map(item => <SideBarItem key={item.href} href={item.href} label={item.label} icon={item.icon} auth={item.auth}/>)
                 }
                 {/* todo need to add the href */}
-                <SideBarItem  onclick={()=>{}} icon={BiLogOut} label='logout' href=''/>
-                <SideBarTweetButton/>
+                {
+                    currentUser &&(<><SideBarItem onclick={() => signOut() } icon={BiLogOut} label='logout' href='' /></>)
+                }
+                <SideBarTweetButton />
             </div>
         </div>
     </div>

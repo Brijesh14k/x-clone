@@ -42,16 +42,16 @@ export const LoginModal = ()=>{
     const bodsyContent =(
         <div className="flex flex-col gap-4">
             <Input 
-            palceholder="Email"
-            onchange={(e)=> setEmail(e.target.value)}
+            placeholder="Email"
+            onChange={(e)=> setEmail(e.target.value)}
             value={email}
-            disable={isLoading}/>
+            disabled={isLoading}/>
             <Input
-                palceholder="Password"
+                placeholder="Password"
                 type="password"
-                onchange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
-                disable={isLoading} />
+                disabled={isLoading} />
         </div>
     )
     const footerContent = (

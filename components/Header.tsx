@@ -11,7 +11,7 @@ export const Header = ({label,showBackArrow}:HeaderProps)=>{
         router.back();
     },[router])
     return <div className="border-b-[1px] border-neutral-800 p-5">
-        <div className="felx flex-row items-center gap-2">
+        <div className="flex flex-row items-center gap-2">
             {
                 showBackArrow && (
                     <BiArrowBack onClick={handelBack} color="white"

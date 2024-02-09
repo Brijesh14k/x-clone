@@ -1,26 +1,26 @@
-interface InputProps
-{
-    palceholder?:string
-    value?:string
-    type?:string
-    disable?:boolean
-    onchange:(event:React .ChangeEvent<HTMLInputElement>)=>void
+interface InputProps {
+    placeholder?: string
+    value?: string
+    type?: string
+    disabled?: boolean
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 export const Input = ({
-    palceholder,
+    placeholder,
     value,
     type,
-    disable,
-    onchange,
+    disabled,
+    onChange,
 
-}:InputProps)=>{
-    return <input 
-    disabled={disable}
-    onChange={onchange}
-    value={value}
-    placeholder={palceholder}
-    type={type}
-    className="
+}: InputProps) => {
+    const sanitizedValue = value || '';
+    return <input
+        disabled={disabled}
+        onChange={onChange}
+        value={sanitizedValue}
+        placeholder={placeholder}
+        type={type}
+        className="
     w-full
     p-2
     text-lg
@@ -32,7 +32,7 @@ export const Input = ({
     focus:border-sky-100
     focus:border-2
     transition
-    disabled:bg-nutral-900
-    disabled:opacity-70
-    disabled:cursor-not-allowed"/>
+    disabledd:bg-nutral-900
+    disabledd:opacity-70
+    disabledd:cursor-not-allowed"/>
 }

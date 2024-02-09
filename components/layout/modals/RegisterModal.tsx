@@ -55,26 +55,26 @@ export const RegisterModal = ()=>{
         <div className="flex flex-col gap-4">
            
             <Input
-                palceholder="Name"
-                onchange={(e) => setName(e.target.value)}
+                placeholder="Name"
+                onChange={(e) => setName(e.target.value)}
                 value={name}
-                disable={isLoading} />
+                disabled={isLoading} />
             <Input
-                palceholder="Username"
-                onchange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+                onChange={(e) => setUsername(e.target.value)}
                 value={username}
-                disable={isLoading} />
+                disabled={isLoading} />
             <Input
-                palceholder="Email"
-                onchange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                disable={isLoading} />
+                disabled={isLoading} />
             <Input
-                palceholder="Password"
+                placeholder="Password"
                 type="password"
-                onchange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
-                disable={isLoading} />
+                disabled={isLoading} />
         </div>
     )
     const footerContent =(

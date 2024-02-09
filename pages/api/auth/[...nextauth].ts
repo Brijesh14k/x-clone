@@ -18,7 +18,7 @@ export default NextAuth({
             async authorize(credentials) {
                 try{
                 if (!credentials?.email || !credentials?.password) {
-                    throw new Error('Ivalid credentials')
+                    throw new Error('Invalid credentials')
                 }
                 const user = await prisma.user.findUnique({
                     where: {

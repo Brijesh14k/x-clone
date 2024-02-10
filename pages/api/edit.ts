@@ -1,4 +1,4 @@
-import { serverAuth } from "@/libs/serverAuth";
+import serverAuth from "@/libs/serverAuth";
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/libs/prismadb";
 
@@ -7,8 +7,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(405).end()
     }
     try {
-        const {currentUser} = await serverAuth(req)
-        console.log(currentUser)
+        const {currentUser} = await serverAuth(req,res)
+        // console.log(currentUser)
         const {name,username,bio,profileImage,coverImage} = req.body
         if(!name || !username)
         {
@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
         return res.status(201).json(updatedUser)
     } catch (e) {
-        // console.log(e)
+        console.log(e)
         res.status(400).end()
     }
 }

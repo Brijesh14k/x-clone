@@ -1,54 +1,55 @@
 import bcrypt from "bcrypt"
-import NextAuth from "next-auth/next"
+import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 
 import prisma from "@/libs/prismadb"
-// import { debug } from "console"
 
-export default NextAuth({
+export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
         CredentialsProvider({
             name: 'credentials',
             credentials: {
                 email: { label: 'email', type: 'text' },
-                password: { label: 'password', type: 'password' },
+                password: { label: 'password', type: 'password' }
             },
             async authorize(credentials) {
-                try{
                 if (!credentials?.email || !credentials?.password) {
-                    throw new Error('Invalid credentials')
+                    throw new Error('Invalid credentials');
                 }
+
                 const user = await prisma.user.findUnique({
                     where: {
                         email: credentials.email
                     }
-                })
+                });
+
                 if (!user || !user?.hashedPassword) {
-                    throw new Error("Invalid Credentials")
+                    throw new Error('Invalid credentials');
                 }
-                const isCorrect = bcrypt.compare(credentials.password,
+
+                const isCorrectPassword = await bcrypt.compare(
+                    credentials.password,
                     user.hashedPassword
-                )
-                if (!isCorrect) {
-                    throw new Error('Invalid Credentials')
+                );
+
+                if (!isCorrectPassword) {
+                    throw new Error('Invalid credentials');
                 }
-                    return Promise.resolve(user)
-            }catch(err)
-            {
-                    return Promise.resolve(null)
-            }
+
+                return user;
             }
         })
     ],
     debug: process.env.NODE_ENV === 'development',
     session: {
-        strategy: "jwt"
+        strategy: 'jwt',
     },
     jwt: {
         secret: process.env.NEXTAUTH_JWT_SECRET,
     },
-    secret: process.env.NEXTAUTH_SECRET
+    secret: process.env.NEXTAUTH_SECRET,
+};
 
-})
+export default NextAuth(authOptions);

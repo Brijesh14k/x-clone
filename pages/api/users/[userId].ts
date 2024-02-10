@@ -27,6 +27,7 @@ export default async function handler(
                 }
             }
         })
+        // console.log(user)
         return res.status(200).json({...user,followersCount})
     }catch(e)
     {
